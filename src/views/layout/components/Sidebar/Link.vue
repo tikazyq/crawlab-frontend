@@ -1,4 +1,3 @@
-
 <template>
   <!-- eslint-disable vue/require-component-is -->
   <component v-bind="linkProps(to)">
@@ -17,7 +16,7 @@ export default {
     }
   },
   methods: {
-    linkProps(url) {
+    linkProps (url) {
       if (isExternal(url)) {
         return {
           is: 'a',

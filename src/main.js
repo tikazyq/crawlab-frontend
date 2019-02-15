@@ -8,6 +8,8 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 
 import '@/styles/index.scss' // global css
 
+import 'font-awesome/scss/font-awesome.scss'// FontAwesome
+
 import App from './App'
 import store from './store'
 import router from './router'
@@ -19,9 +21,10 @@ Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
 
-new Vue({
+const app = new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 })
+export default app

@@ -1,13 +1,13 @@
 <template>
   <el-scrollbar wrap-class="scrollbar-wrapper">
     <el-menu
-      :show-timeout="200"
-      :default-active="$route.path"
-      :collapse="isCollapse"
-      :background-color="variables.menuBg"
-      :text-color="variables.menuText"
-      :active-text-color="variables.menuActiveText"
-      mode="vertical"
+        :show-timeout="200"
+        :default-active="$route.path"
+        :collapse="isCollapse"
+        :background-color="variables.menuBg"
+        :text-color="variables.menuText"
+        :active-text-color="variables.menuActiveText"
+        mode="vertical"
     >
       <sidebar-item v-for="route in routes" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
@@ -25,13 +25,14 @@ export default {
     ...mapGetters([
       'sidebar'
     ]),
-    routes() {
+    routes () {
+      console.log(this.$router.options.routes.filter(d => !d.hidden))
       return this.$router.options.routes
     },
-    variables() {
+    variables () {
       return variables
     },
-    isCollapse() {
+    isCollapse () {
       return !this.sidebar.opened
     }
   }

@@ -12,12 +12,17 @@ export default {
       default: ''
     }
   },
-  render(h, context) {
+  render (h, context) {
     const { icon, title } = context.props
     const vnodes = []
 
     if (icon) {
-      vnodes.push(<svg-icon icon-class={icon}/>)
+      // vnodes.push(<svg-icon icon-class={icon}/>)
+      const style = {
+        'margin-right': '5px',
+        'z-index': 999
+      }
+      vnodes.push(<span class={icon} style={style}/>)
     }
 
     if (title) {

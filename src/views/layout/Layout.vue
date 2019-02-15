@@ -1,6 +1,6 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"/>
+    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside"></div>
     <sidebar class="sidebar-container"/>
     <div class="main-container">
       <navbar/>
@@ -22,13 +22,13 @@ export default {
   },
   mixins: [ResizeMixin],
   computed: {
-    sidebar() {
+    sidebar () {
       return this.$store.state.app.sidebar
     },
-    device() {
+    device () {
       return this.$store.state.app.device
     },
-    classObj() {
+    classObj () {
       return {
         hideSidebar: !this.sidebar.opened,
         openSidebar: this.sidebar.opened,
@@ -38,7 +38,7 @@ export default {
     }
   },
   methods: {
-    handleClickOutside() {
+    handleClickOutside () {
       this.$store.dispatch('CloseSideBar', { withoutAnimation: false })
     }
   }
@@ -46,17 +46,20 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-  @import "src/styles/mixin.scss";
+  @import "../../../src/styles/mixin.scss";
+
   .app-wrapper {
     @include clearfix;
     position: relative;
     height: 100%;
     width: 100%;
-    &.mobile.openSidebar{
+
+    &.mobile.openSidebar {
       position: fixed;
       top: 0;
     }
   }
+
   .drawer-bg {
     background: #000;
     opacity: 0.3;
