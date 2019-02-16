@@ -23,8 +23,8 @@ Vue.use(Router)
   }
  **/
 export const constantRouterMap = [
-  { path: '/login', component: () => import('@/views/login/index'), hidden: true },
-  { path: '/404', component: () => import('@/views/404'), hidden: true },
+  { path: '/login', component: () => import('../views/login/index'), hidden: true },
+  { path: '/404', component: () => import('../views/404'), hidden: true },
   { path: '/', redirect: '/home' },
 
   // Crawlab Pages
@@ -54,7 +54,7 @@ export const constantRouterMap = [
       {
         path: 'list',
         name: 'NodeList',
-        component: import('../views/node/NodeList'),
+        component: () => import('../views/node/NodeList'),
         meta: {
           title: 'Node List',
           icon: 'fa fa-circle-o'
@@ -63,7 +63,7 @@ export const constantRouterMap = [
       {
         path: 'detail',
         name: 'NodeDetail',
-        component: import('../views/node/NodeDetail'),
+        component: () => import('../views/node/NodeDetail'),
         meta: {
           title: 'Node Detail',
           icon: 'fa fa-circle-o'
@@ -83,7 +83,7 @@ export const constantRouterMap = [
       {
         path: 'list',
         name: 'SpiderList',
-        component: import('../views/spider/SpiderList'),
+        component: () => import('../views/spider/SpiderList'),
         meta: {
           title: 'Spider List',
           icon: 'fa fa-circle-o'
@@ -92,7 +92,7 @@ export const constantRouterMap = [
       {
         path: 'detail',
         name: 'SpiderDetail',
-        component: import('../views/spider/SpiderDetail'),
+        component: () => import('../views/spider/SpiderDetail'),
         meta: {
           title: 'Spider Detail',
           icon: 'fa fa-circle-o'
@@ -112,7 +112,7 @@ export const constantRouterMap = [
       {
         path: 'list',
         name: 'DeployList',
-        component: import('../views/deploy/DeployList'),
+        component: () => import('../views/deploy/DeployList'),
         meta: {
           title: 'Deploy List',
           icon: 'fa fa-circle-o'
@@ -121,9 +121,38 @@ export const constantRouterMap = [
       {
         path: 'detail',
         name: 'DeployDetail',
-        component: import('../views/deploy/DeployDetail'),
+        component: () => import('../views/deploy/DeployDetail'),
         meta: {
           title: 'Deploy Detail',
+          icon: 'fa fa-circle-o'
+        }
+      }
+    ]
+  },
+  {
+    name: 'Task',
+    path: '/tasks',
+    component: Layout,
+    meta: {
+      title: 'Task',
+      icon: 'fa fa-list'
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'TaskList',
+        component: () => import('../views/task/TaskList'),
+        meta: {
+          title: 'Task List',
+          icon: 'fa fa-circle-o'
+        }
+      },
+      {
+        path: 'detail',
+        name: 'TaskDetail',
+        component: () => import('../views/task/TaskDetail'),
+        meta: {
+          title: 'Task Detail',
           icon: 'fa fa-circle-o'
         }
       }

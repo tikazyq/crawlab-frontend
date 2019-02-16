@@ -1,9 +1,9 @@
 {
-  "name": "crawlab-frontend",
+  "name": "tmp",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --ip=0.0.0.0",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"

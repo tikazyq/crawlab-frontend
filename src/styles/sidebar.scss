@@ -114,7 +114,7 @@
     .el-menu--collapse {
       .el-submenu {
         &>.el-submenu__title {
-          &>span {
+          &>span.title {
             height: 0;
             width: 0;
             overflow: hidden;

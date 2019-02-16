@@ -17,9 +17,13 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import request from './api/request'
+
 Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
+
+Vue.prototype.$request = request
 
 const app = new Vue({
   el: '#app',
