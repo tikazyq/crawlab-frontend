@@ -35,6 +35,17 @@ const actions = {
         dispatch('getNodeList')
       })
   },
+  editNode ({ state, dispatch }) {
+    request.post(`/nodes/${state.nodeForm._id.$oid}`, {
+      name: state.nodeForm.name,
+      ip: state.nodeForm.ip,
+      port: state.nodeForm.port,
+      description: state.nodeForm.description
+    })
+      .then(() => {
+        dispatch('getNodeList')
+      })
+  },
   deleteNode ({ state, dispatch }, id) {
     request.delete(`/nodes/${id}`)
       .then(() => {

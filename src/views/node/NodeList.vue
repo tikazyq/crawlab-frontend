@@ -38,12 +38,20 @@
                 v-model="filter.keyword"
                 @change="onSearch">
       </el-input>
-      <el-button type="primary"
-                 icon="el-icon-plus"
-                 class="add"
-                 @click="onAdd">
-        Add Node
-      </el-button>
+      <div class="right">
+        <el-button type="success"
+                   icon="el-icon-refresh"
+                   class="refresh"
+                   @click="onRefresh">
+          Search
+        </el-button>
+        <el-button type="primary"
+                   icon="el-icon-plus"
+                   class="add"
+                   @click="onAdd">
+          Add Node
+        </el-button>
+      </div>
     </div>
 
     <!--table list-->
@@ -143,15 +151,23 @@ export default {
       console.log(value)
     },
     onAdd () {
+      this.$store.commit('node/SET_NODE_FORM', [])
       this.isEditMode = false
       this.dialogVisible = true
     },
-    onAddSubmit () {
+    onRefresh () {
+      this.$store.dispatch('node/getNodeList')
+    },
+    onSubmit () {
       const vm = this
       const formName = 'nodeForm'
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          vm.$store.dispatch('node/addNode')
+          if (this.isEditMode) {
+            vm.$store.dispatch('node/editNode')
+          } else {
+            vm.$store.dispatch('node/addNode')
+          }
           vm.dialogVisible = false
         } else {
           return false
