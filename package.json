@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve --ip=0.0.0.0",
+    "config": "vue ui",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "0.18.0",
     "element-ui": "2.4.6",
     "font-awesome": "^4.7.0",

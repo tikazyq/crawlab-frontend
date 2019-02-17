@@ -85,18 +85,19 @@ export const constantRouterMap = [
         name: 'SpiderList',
         component: () => import('../views/spider/SpiderList'),
         meta: {
-          title: 'Spider List',
-          icon: 'fa fa-circle-o'
+          title: 'Spider',
+          icon: 'fa fa-bug'
         }
       },
       {
-        path: 'detail',
+        path: ':id',
         name: 'SpiderDetail',
         component: () => import('../views/spider/SpiderDetail'),
         meta: {
           title: 'Spider Detail',
           icon: 'fa fa-circle-o'
-        }
+        },
+        hidden: true
       }
     ]
   },

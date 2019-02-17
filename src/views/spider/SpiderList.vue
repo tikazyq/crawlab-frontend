@@ -101,8 +101,9 @@
                          :width="col.width">
         </el-table-column>
       </template>
-      <el-table-column label="Action" align="center" width="240">
+      <el-table-column label="Action" align="center" width="220">
         <template slot-scope="scope">
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
           <el-button type="warning" icon="el-icon-edit" size="mini" @click="onEdit(scope.row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
           <el-button type="success" size="mini" @click="onDeploy(scope.row)">Deploy</el-button>
@@ -222,6 +223,9 @@ export default {
       })
     },
     onDeploy (row) {
+    },
+    onView (row) {
+      this.$router.push(`/spiders/${row._id.$oid}`)
     }
   },
   created () {
@@ -252,6 +256,10 @@ export default {
   .table {
     margin-top: 20px;
     border-radius: 5px;
+
+    .el-button {
+      padding: 7px;
+    }
   }
 
   .delete-confirm {

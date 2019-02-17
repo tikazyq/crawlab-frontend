@@ -1,12 +1,51 @@
 <template>
-  <div class="">
-    NodeDetail
+  <div class="app-container">
+    <el-tabs v-model="activeTabName" @tab-click="onTabClick" type="card">
+      <el-tab-pane label="Overview" name="overview">
+        Overview
+      </el-tab-pane>
+      <el-tab-pane label="Files" name="files">
+        <file-list/>
+      </el-tab-pane>
+      <el-tab-pane label="Deploys" name="deploys">
+        Deploy
+      </el-tab-pane>
+      <el-tab-pane label="Monitor" name="monitor">
+        Deploy
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 
 <script>
+import {
+  mapState
+} from 'vuex'
+import FileList from '../../components/FileList/FileList'
+
 export default {
-  name: 'NodeDetail'
+  name: 'NodeDetail',
+  components: {
+    FileList
+  },
+  data () {
+    return {
+      activeTabName: 'overview'
+    }
+  },
+  computed: {
+    ...mapState('fileList', [
+      'currentPath'
+    ])
+  },
+  methods: {
+    onTabClick () {
+    }
+  },
+  created () {
+    this.$store.commit('fileList/SET_CURRENT_PATH', '/Users/yeqing/projects/crawlab')
+    this.$store.dispatch('fileList/getFileList', this.currentPath)
+  }
 }
 </script>
 
