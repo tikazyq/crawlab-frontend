@@ -1,17 +1,30 @@
 <template>
   <div class="file-list-container">
-    <div class="file-path-container">
-      <div class="file-path" v-show="!isEdit">{{currentPath}}</div>
-      <el-input class="file-path"
-                v-show="isEdit"
-                v-model="currentPath"
-                @change="onChange"
-                @keypress.enter.native="onChangeSubmit">
-      </el-input>
-      <i class="el-icon-edit" @click="onEdit"></i>
+    <div class="top-part">
+      <!--file path-->
+      <div class="file-path-container">
+        <div class="left">
+          <i class="el-icon-back" @click="onBack"></i>
+          <div class="file-path" v-show="!isEdit">{{currentPath}}</div>
+          <el-input class="file-path"
+                    v-show="isEdit"
+                    v-model="currentPath"
+                    @change="onChange"
+                    @keypress.enter.native="onChangeSubmit">
+          </el-input>
+        </div>
+        <i class="el-icon-edit" @click="onEdit"></i>
+      </div>
+      <!--action-->
+      <div class="action-container">
+        <el-button type="success" size="mini">Choose Folder</el-button>
+      </div>
+
     </div>
+
+    <!--file list-->
     <ul class="file-list">
-      <li v-for="(item, index) in fileList" :key="index" class="item">
+      <li v-for="(item, index) in fileList" :key="index" class="item" @click="onItemClick(item)">
         <span class="item-icon">
           <i class="fa" :class="getIcon(item.type)"></i>
         </span>
@@ -27,6 +40,7 @@
 import {
   mapState
 } from 'vuex'
+import path from 'path'
 
 export default {
   name: 'FileList',
@@ -36,15 +50,15 @@ export default {
     }
   },
   computed: {
-    ...mapState('fileList', [
+    ...mapState('file', [
       'fileList'
     ]),
     currentPath: {
       set (value) {
-        this.$store.commit('fileList/SET_CURRENT_PATH', value)
+        this.$store.commit('file/SET_CURRENT_PATH', value)
       },
       get () {
-        return this.$store.state.fileList.currentPath
+        return this.$store.state.file.currentPath
       }
     }
   },
@@ -60,12 +74,25 @@ export default {
       this.isEdit = true
     },
     onChange (path) {
-      console.log(path)
-      this.$store.commit('fileList/SET_CURRENT_PATH', path)
+      this.$store.commit('file/SET_CURRENT_PATH', path)
     },
     onChangeSubmit () {
       this.isEdit = false
-      this.$store.dispatch('fileList/getFileList', this.currentPath)
+      this.$store.dispatch('file/getFileList', this.currentPath)
+    },
+    onItemClick (item) {
+      if (item.type === 2) {
+        this.$store.commit('file/SET_CURRENT_PATH', path.join(this.currentPath, item.path))
+        this.$store.dispatch('file/getFileList', this.currentPath)
+      }
+    },
+    onBack () {
+      const sep = '/'
+      let arr = this.currentPath.split(sep)
+      arr.splice(arr.length - 1, 1)
+      const path = arr.join(sep)
+      this.$store.commit('file/SET_CURRENT_PATH', path)
+      this.$store.dispatch('file/getFileList', this.currentPath)
     }
   }
 }
@@ -75,21 +102,48 @@ export default {
   .file-list-container {
     height: 100%;
 
-    .file-path-container {
-      padding: 5px;
-      margin: 0 10px;
-      border-radius: 5px;
-      border: 1px solid rgba(48, 65, 86, 0.4);
+    .top-part {
       display: flex;
-      justify-content: space-between;
+      margin-bottom: 10px;
 
-      .el-input {
-        /*height: 22px;*/
-        line-height: 10px;
+      .file-path-container {
+        width: 100%;
+        padding: 5px;
+        margin: 0 10px;
+        border-radius: 5px;
+        border: 1px solid rgba(48, 65, 86, 0.4);
+        display: flex;
+        justify-content: space-between;
+
+        .left {
+          width: 100%;
+          display: flex;
+
+          .el-icon-back {
+            margin-right: 10px;
+            cursor: pointer;
+          }
+
+          .el-input {
+            /*height: 22px;*/
+            width: 100%;
+            line-height: 10px;
+          }
+        }
+
+        .el-icon-edit {
+          cursor: pointer;
+        }
       }
 
-      .el-icon-edit {
-        cursor: pointer;
+      .action-container {
+        text-align: right;
+        padding: 1px 5px;
+        height: 24px;
+
+        .el-button {
+          margin: 0;
+        }
       }
     }
 
@@ -97,6 +151,8 @@ export default {
       padding: 0;
       margin: 0;
       list-style: none;
+      height: 450px;
+      overflow-y: auto;
 
       .item {
         padding: 10px 20px;

@@ -30,6 +30,16 @@ const actions = {
         }))
         commit('SET_FILE_LIST', list)
       })
+  },
+  getDefaultPath ({ commit }) {
+    return new Promise((resolve, reject) => {
+      request.get('/files/getDefaultPath')
+        .then(response => {
+          commit('SET_CURRENT_PATH', response.data.defaultPath)
+          resolve(response.data.defaultPath)
+        })
+        .catch(reject)
+    })
   }
 }
 

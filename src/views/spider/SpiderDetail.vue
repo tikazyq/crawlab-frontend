@@ -34,7 +34,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('fileList', [
+    ...mapState('file', [
       'currentPath'
     ])
   },
@@ -43,8 +43,10 @@ export default {
     }
   },
   created () {
-    this.$store.commit('fileList/SET_CURRENT_PATH', '/Users/yeqing/projects/crawlab')
-    this.$store.dispatch('fileList/getFileList', this.currentPath)
+    this.$store.dispatch('file/getDefaultPath')
+      .then(() => {
+        this.$store.dispatch('file/getFileList', this.currentPath)
+      })
   }
 }
 </script>
