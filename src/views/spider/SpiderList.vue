@@ -6,13 +6,19 @@
       :visible.sync="dialogVisible"
       width="60%"
       :before-close="onDialogClose">
-      <el-form label-width="100px"
+      <el-form label-width="150px"
                :model="spiderForm"
                :rules="spiderFormRules"
                ref="spiderForm"
                label-position="right">
-        <el-form-item label="Name">
-          <el-input v-model="spiderForm.name" placeholder="Name"></el-input>
+        <el-form-item label="Spider Name">
+          <el-input v-model="spiderForm.name" placeholder="Spider Name"></el-input>
+        </el-form-item>
+        <el-form-item label="Source Folder">
+          <el-input v-model="spiderForm.src" placeholder="Source Folder"></el-input>
+        </el-form-item>
+        <el-form-item label="Execute Command">
+          <el-input v-model="spiderForm.cmd" placeholder="Execute Command"></el-input>
         </el-form-item>
         <el-form-item label="Spider Type">
           <el-select v-model="spiderForm.type" placeholder="Select Spider Type">
@@ -107,6 +113,7 @@
           <el-button type="warning" icon="el-icon-edit" size="mini" @click="onEdit(scope.row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
           <el-button type="success" size="mini" @click="onDeploy(scope.row)">Deploy</el-button>
+          <el-button type="primary" size="mini" @click="onCrawl(scope.row)">Crawl</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -223,6 +230,10 @@ export default {
       })
     },
     onDeploy (row) {
+      this.$store.dispatch('spider/deploySpider', row._id.$oid)
+    },
+    onCrawl (row) {
+      this.$store.dispatch('spider/crawlSpider', row._id.$oid)
     },
     onView (row) {
       this.$router.push(`/spiders/${row._id.$oid}`)

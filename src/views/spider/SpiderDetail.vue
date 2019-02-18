@@ -34,6 +34,9 @@ export default {
     }
   },
   computed: {
+    ...mapState('spider', [
+      'spiderData'
+    ]),
     ...mapState('file', [
       'currentPath'
     ])
@@ -43,9 +46,16 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('file/getDefaultPath')
+    this.$store.dispatch('spider/getSpiderData', this.$route.params.id)
       .then(() => {
-        this.$store.dispatch('file/getFileList', this.currentPath)
+        if (!this.spiderData.src) {
+          this.$store.dispatch('file/getDefaultPath')
+            .then(() => {
+              this.$store.dispatch('file/getFileList', this.currentPath)
+            })
+        } else {
+          this.$store.dispatch('file/getFileList', this.spiderData.src)
+        }
       })
   }
 }
