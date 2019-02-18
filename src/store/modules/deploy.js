@@ -1,8 +1,14 @@
-const state = {}
+const state = {
+  deployList: []
+}
 
 const getters = {}
 
-const mutations = {}
+const mutations = {
+  SET_DEPLOY_LIST (state, value) {
+    state.deployList = value
+  }
+}
 
 const actions = {}
 

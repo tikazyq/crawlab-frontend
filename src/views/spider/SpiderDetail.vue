@@ -8,7 +8,8 @@
         <file-list/>
       </el-tab-pane>
       <el-tab-pane label="Deploys" name="deploys">
-        Deploy
+        <el-table :data="deployList">
+        </el-table>
       </el-tab-pane>
       <el-tab-pane label="Monitor" name="monitor">
         Deploy
@@ -39,6 +40,9 @@ export default {
     ]),
     ...mapState('file', [
       'currentPath'
+    ]),
+    ...mapState('deploy', [
+      'deployList'
     ])
   },
   methods: {
