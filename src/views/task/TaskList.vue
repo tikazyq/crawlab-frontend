@@ -81,9 +81,10 @@ export default {
       },
       // tableData,
       columns: [
-        { name: 'date_done', label: 'Date', width: 'auto' },
+        { name: 'create_ts', label: 'Create Date', width: 'auto' },
+        { name: 'finish_ts', label: 'Finish Date', width: 'auto' },
         { name: 'spider_name', label: 'Spider', width: '160' },
-        { name: 'node_name', label: 'Node', width: '160' },
+        { name: 'hostname', label: 'Node', width: '160' },
         { name: 'status', label: 'Status', width: '160', sortable: true }
       ]
     }
@@ -105,9 +106,19 @@ export default {
         return false
       }).map(d => {
         try {
-          d.date_done = new Date(d.date_done.$date).toISOString()
+          d.create_ts = new Date(d.create_ts.$date).toISOString()
         } catch (e) {
-          d.date_done = d.date_done.toString()
+          if (d.create_ts) d.create_ts = d.create_ts.toString()
+        }
+        try {
+          d.finish_ts = new Date(d.finish_ts.$date).toISOString()
+        } catch (e) {
+          if (d.finish_ts) d.finish_ts = d.finish_ts.toString()
+        }
+        try {
+          d.spider_id = d.spider_id.$oid
+        } catch (e) {
+          if (d.spider_id) d.spider_id = d.spider_id.toString()
         }
         return d
       }).sort((a, b) => a.date_done < b.date_done ? 1 : -1)
