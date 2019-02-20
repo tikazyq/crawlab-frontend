@@ -51,6 +51,12 @@ const actions = {
       .then(() => {
         dispatch('getNodeList')
       })
+  },
+  getNodeData ({ state, commit }, id) {
+    request.get(`/nodes/${id}`)
+      .then(response => {
+        commit('SET_NODE_FORM', response.data)
+      })
   }
 }
 

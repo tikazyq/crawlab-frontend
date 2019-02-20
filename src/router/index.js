@@ -52,22 +52,23 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'list',
+        path: '',
         name: 'NodeList',
         component: () => import('../views/node/NodeList'),
         meta: {
-          title: 'Node List',
-          icon: 'fa fa-circle-o'
+          title: 'Nodes',
+          icon: 'fa fa-server'
         }
       },
       {
-        path: 'detail',
+        path: ':id',
         name: 'NodeDetail',
         component: () => import('../views/node/NodeDetail'),
         meta: {
           title: 'Node Detail',
           icon: 'fa fa-circle-o'
-        }
+        },
+        hidden: true
       }
     ]
   },
@@ -85,7 +86,7 @@ export const constantRouterMap = [
         name: 'SpiderList',
         component: () => import('../views/spider/SpiderList'),
         meta: {
-          title: 'Spider',
+          title: 'Spiders',
           icon: 'fa fa-bug'
         }
       },
@@ -95,6 +96,36 @@ export const constantRouterMap = [
         component: () => import('../views/spider/SpiderDetail'),
         meta: {
           title: 'Spider Detail',
+          icon: 'fa fa-circle-o'
+        },
+        hidden: true
+      }
+    ]
+  },
+  {
+    name: 'Task',
+    path: '/tasks',
+    component: Layout,
+    meta: {
+      title: 'Task',
+      icon: 'fa fa-list'
+    },
+    children: [
+      {
+        path: 'list',
+        name: 'TaskList',
+        component: () => import('../views/task/TaskList'),
+        meta: {
+          title: 'Task List',
+          icon: 'fa fa-list'
+        }
+      },
+      {
+        path: 'detail',
+        name: 'TaskDetail',
+        component: () => import('../views/task/TaskDetail'),
+        meta: {
+          title: 'Task Detail',
           icon: 'fa fa-circle-o'
         },
         hidden: true
@@ -116,7 +147,7 @@ export const constantRouterMap = [
         component: () => import('../views/deploy/DeployList'),
         meta: {
           title: 'Deploy List',
-          icon: 'fa fa-circle-o'
+          icon: 'fa fa-cloud'
         }
       },
       {
@@ -126,36 +157,8 @@ export const constantRouterMap = [
         meta: {
           title: 'Deploy Detail',
           icon: 'fa fa-circle-o'
-        }
-      }
-    ]
-  },
-  {
-    name: 'Task',
-    path: '/tasks',
-    component: Layout,
-    meta: {
-      title: 'Task',
-      icon: 'fa fa-list'
-    },
-    children: [
-      {
-        path: 'list',
-        name: 'TaskList',
-        component: () => import('../views/task/TaskList'),
-        meta: {
-          title: 'Task List',
-          icon: 'fa fa-circle-o'
-        }
-      },
-      {
-        path: 'detail',
-        name: 'TaskDetail',
-        component: () => import('../views/task/TaskDetail'),
-        meta: {
-          title: 'Task Detail',
-          icon: 'fa fa-circle-o'
-        }
+        },
+        hidden: true
       }
     ]
   },

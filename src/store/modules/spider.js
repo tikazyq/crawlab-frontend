@@ -60,10 +60,10 @@ const actions = {
         dispatch('getSpiderList')
       })
   },
-  getSpiderData ({ commit }, id) {
+  getSpiderData ({ state, commit }, id) {
     return request.get(`/spiders/${id}`)
       .then(response => {
-        commit('SET_SPIDER_DATA', response.data)
+        commit('SET_SPIDER_FORM', response.data)
       })
   },
   deploySpider ({ state, dispatch }, id) {

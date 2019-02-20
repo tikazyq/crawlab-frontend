@@ -12,6 +12,7 @@
   "dependencies": {
     "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "0.18.0",
+    "dayjs": "^1.8.6",
     "element-ui": "2.4.6",
     "font-awesome": "^4.7.0",
     "js-cookie": "2.2.0",

@@ -45,12 +45,27 @@ export default {
       return toPath(params)
     },
     handleLink (item) {
-      const { redirect, path } = item
+      const { redirect } = item
       if (redirect) {
         this.$router.push(redirect)
         return
       }
-      this.$router.push(this.pathCompile(path))
+      this.$router.push(this.getGoToPath(item))
+    },
+    getGoToPath (item) {
+      if (item.path) {
+        var path = item.path
+        var startPos = path.indexOf(':')
+
+        if (startPos !== -1) {
+          var endPos = path.indexOf('/', startPos)
+          var key = path.substring(startPos + 1, endPos)
+          path = path.replace(':' + key, this.$route.params[key])
+          return path
+        }
+      }
+
+      return item.redirect || item.path
     }
   }
 }

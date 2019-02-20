@@ -60,6 +60,7 @@
 import {
   mapState
 } from 'vuex'
+import dayjs from 'dayjs'
 
 export default {
   name: 'TaskList',
@@ -81,10 +82,10 @@ export default {
       },
       // tableData,
       columns: [
-        { name: 'create_ts', label: 'Create Date', width: 'auto' },
-        { name: 'finish_ts', label: 'Finish Date', width: 'auto' },
+        { name: 'create_ts', label: 'Create Date', width: '150' },
+        { name: 'finish_ts', label: 'Finish Date', width: '150' },
         { name: 'spider_name', label: 'Spider', width: '160' },
-        { name: 'hostname', label: 'Node', width: '160' },
+        { name: 'hostname', label: 'Node', width: 'auto' },
         { name: 'status', label: 'Status', width: '160', sortable: true }
       ]
     }
@@ -105,23 +106,17 @@ export default {
         }
         return false
       }).map(d => {
-        try {
-          d.create_ts = new Date(d.create_ts.$date).toISOString()
-        } catch (e) {
-          if (d.create_ts) d.create_ts = d.create_ts.toString()
-        }
-        try {
-          d.finish_ts = new Date(d.finish_ts.$date).toISOString()
-        } catch (e) {
-          if (d.finish_ts) d.finish_ts = d.finish_ts.toString()
-        }
+        // debugger
+        d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+        d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+
         try {
           d.spider_id = d.spider_id.$oid
         } catch (e) {
           if (d.spider_id) d.spider_id = d.spider_id.toString()
         }
         return d
-      }).sort((a, b) => a.date_done < b.date_done ? 1 : -1)
+      }).sort((a, b) => a.create_ts < b.create_ts ? 1 : -1)
     }
   },
   methods: {

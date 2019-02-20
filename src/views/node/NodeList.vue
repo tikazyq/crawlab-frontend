@@ -1,35 +1,5 @@
 <template>
   <div class="app-container">
-    <!--add popup-->
-    <el-dialog
-      :title="isEditMode ? 'Edit Node' : 'Add Node'"
-      :visible.sync="dialogVisible"
-      width="60%"
-      :before-close="onDialogClose">
-      <el-form label-width="100px"
-               :model="nodeForm"
-               :rules="nodeFormRules"
-               ref="nodeForm"
-               label-position="right">
-        <el-form-item label="Name">
-          <el-input v-model="nodeForm.name" placeholder="Name"></el-input>
-        </el-form-item>
-        <el-form-item label="IP">
-          <el-input v-model="nodeForm.ip" placeholder="IP"></el-input>
-        </el-form-item>
-        <el-form-item label="Port">
-          <el-input v-model="nodeForm.port" type="number" placeholder="Port"></el-input>
-        </el-form-item>
-        <el-form-item label="Description">
-          <el-input v-model="nodeForm.description" placeholder="Description" type="textarea"></el-input>
-        </el-form-item>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="onCancel">Cancel</el-button>
-        <el-button type="primary" @click="onAddSubmit">Submit</el-button>
-      </span>
-    </el-dialog>
-
     <!--filter-->
     <div class="filter">
       <el-input prefix-icon="el-icon-search"
@@ -44,12 +14,6 @@
                    class="refresh"
                    @click="onRefresh">
           Search
-        </el-button>
-        <el-button type="primary"
-                   icon="el-icon-plus"
-                   class="add"
-                   @click="onAdd">
-          Add Node
         </el-button>
       </div>
     </div>
@@ -84,8 +48,9 @@
       </template>
       <el-table-column label="Action" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onEdit(scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
+          <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
+          <!--<el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -117,9 +82,9 @@ export default {
       },
       // tableData,
       columns: [
-        { name: 'name', label: 'Name', width: '160' },
-        { name: 'ip', label: 'IP', width: '160' },
-        { name: 'port', label: 'Port', width: '80' },
+        { name: 'name', label: 'Name', width: '320' },
+        // { name: 'ip', label: 'IP', width: '160' },
+        // { name: 'port', label: 'Port', width: '80' },
         { name: 'status', label: 'Status', width: '120', sortable: true },
         { name: 'description', label: 'Description', width: 'auto' }
       ],
@@ -202,6 +167,9 @@ export default {
             })
           })
       })
+    },
+    onView (row) {
+      this.$router.push(`/nodes/${row._id}`)
     }
   },
   created () {
@@ -230,5 +198,9 @@ export default {
 
   .delete-confirm {
     background-color: red;
+  }
+
+  .el-table .el-button {
+    padding: 7px;
   }
 </style>

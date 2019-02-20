@@ -110,10 +110,10 @@
       <el-table-column label="Action" align="center" width="250">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
-          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onEdit(scope.row)"></el-button>
+          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
-          <el-button type="success" size="mini" @click="onDeploy(scope.row)">Deploy</el-button>
-          <el-button type="primary" size="mini" @click="onCrawl(scope.row)">Crawl</el-button>
+          <el-button type="success" icon="fa fa-cloud" size="mini" @click="onDeploy(scope.row)"></el-button>
+          <el-button type="primary" icon="fa fa-bug" size="mini" @click="onCrawl(scope.row)"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -147,7 +147,8 @@ export default {
       columns: [
         { name: 'name', label: 'Name', width: 'auto' },
         { name: 'type', label: 'Spider Type', width: '160', sortable: true },
-        { name: 'lang', label: 'Language', width: '160', sortable: true }
+        { name: 'lang', label: 'Language', width: '160', sortable: true },
+        { name: 'status', label: 'Status', width: '160' }
       ],
       spiderFormRules: {
         name: [{ required: true, message: 'Required Field', trigger: 'change' }]
