@@ -16,9 +16,7 @@
 
       <!--last deploys-->
       <el-row>
-        <h5 class="title">Latest Deploys</h5>
-        <el-table border height="240px">
-        </el-table>
+        <deploy-table-view title="Latest Deploys"/>
       </el-row>
     </el-col>
 
@@ -60,9 +58,9 @@
         </el-form>
       </el-row>
       <el-row class="button-container">
-        <el-button type="warning">Run</el-button>
-        <el-button type="primary">Deploy</el-button>
-        <el-button type="success" @click="onSave">Save</el-button>
+        <el-button type="success" @click="onRun">Run</el-button>
+        <el-button type="primary" @click="onDeploy">Deploy</el-button>
+        <el-button type="info" @click="onSave">Save</el-button>
       </el-row>
     </el-col>
   </el-row>
@@ -72,9 +70,11 @@
 import {
   mapState
 } from 'vuex'
+import DeployTableView from '../TableView/DeployTableView'
 
 export default {
   name: 'SpiderOverview',
+  components: { DeployTableView },
   data () {
     return {
       // spiderForm: {}
@@ -86,9 +86,20 @@ export default {
     },
     ...mapState('spider', [
       'spiderForm'
+    ]),
+    ...mapState('deploy', [
+      'deployList'
     ])
   },
   methods: {
+    onRun () {
+      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
+      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderRun')
+    },
+    onDeploy () {
+      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
+      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderDeploy')
+    },
     onSave () {
       this.$store.dispatch('spider/editSpider')
         .then(() => {

@@ -1,3 +1,6 @@
+import request from '../../api/request'
+import dayjs from 'dayjs'
+
 const state = {
   deployList: []
 }
@@ -10,7 +13,17 @@ const mutations = {
   }
 }
 
-const actions = {}
+const actions = {
+  getDeployList ({ state, commit }) {
+    request.get('/deploys')
+      .then(response => {
+        commit('SET_DEPLOY_LIST', response.data.items.map(d => {
+          if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+          return d
+        }))
+      })
+  }
+}
 
 export default {
   namespaced: true,

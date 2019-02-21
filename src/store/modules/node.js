@@ -1,9 +1,13 @@
 import request from '../../api/request'
+import dayjs from 'dayjs'
 
 const state = {
   // NodeList
   nodeList: [],
-  nodeForm: {}
+  nodeForm: {},
+
+  // spider to deploy/run
+  activeSpider: {}
 }
 
 const getters = {}
@@ -14,6 +18,9 @@ const mutations = {
   },
   SET_NODE_LIST (state, value) {
     state.nodeList = value
+  },
+  SET_ACTIVE_SPIDER (state, value) {
+    state.activeSpider = value
   }
 }
 
@@ -56,6 +63,17 @@ const actions = {
     request.get(`/nodes/${id}`)
       .then(response => {
         commit('SET_NODE_FORM', response.data)
+      })
+  },
+  getDeployList ({ state, commit }, id) {
+    return request.get(`/nodes/${id}/get_deploys`)
+      .then(response => {
+        commit('deploy/SET_DEPLOY_LIST',
+          response.data.items.map(d => {
+            if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            return d
+          }),
+          { root: true })
       })
   }
 }

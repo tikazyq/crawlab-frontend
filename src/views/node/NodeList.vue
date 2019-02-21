@@ -32,8 +32,8 @@
                          align="center"
                          :width="col.width">
           <template slot-scope="scope">
-            <el-tag type="info" v-if="scope.row.status === 0">Offline</el-tag>
-            <el-tag type="success" v-else-if="scope.row.status === 1">Online</el-tag>
+            <el-tag type="info" v-if="scope.row.status === 'offline'">Offline</el-tag>
+            <el-tag type="success" v-else-if="scope.row.status === 'online'">Online</el-tag>
             <el-tag type="danger" v-else>Unavailable</el-tag>
           </template>
         </el-table-column>
@@ -48,9 +48,12 @@
       </template>
       <el-table-column label="Action" align="center" width="160">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
-          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
-          <!--<el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>-->
+          <el-tooltip content="View" placement="top">
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="Edit" placement="top">
+            <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>

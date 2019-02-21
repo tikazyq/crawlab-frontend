@@ -111,11 +111,21 @@
       </template>
       <el-table-column label="Action" align="center" width="250">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
-          <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
-          <el-button type="success" icon="fa fa-cloud" size="mini" @click="onDeploy(scope.row)"></el-button>
-          <el-button type="primary" icon="fa fa-bug" size="mini" @click="onCrawl(scope.row)"></el-button>
+          <el-tooltip content="View" placement="top">
+            <el-button type="info" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="Edit" placement="top">
+            <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="Remove" placement="top">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="Deploy" placement="top">
+            <el-button type="primary" icon="fa fa-cloud" size="mini" @click="onDeploy(scope.row)"></el-button>
+          </el-tooltip>
+          <el-tooltip content="Run" placement="top">
+            <el-button type="success" icon="fa fa-bug" size="mini" @click="onCrawl(scope.row)"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -233,7 +243,9 @@ export default {
       })
     },
     onDeploy (row) {
-      this.$store.dispatch('spider/deploySpider', row._id.$oid)
+      this.$store.dispatch('spider/getSpiderData', row._id.$oid)
+      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
+      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderDeploy')
     },
     onCrawl (row) {
       this.$store.dispatch('spider/crawlSpider', row._id.$oid)

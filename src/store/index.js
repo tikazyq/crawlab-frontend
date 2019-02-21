@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import app from './modules/app'
 import user from './modules/user'
 import tagsView from './modules/tagsView'
+import dialogView from './modules/dialogView'
 import node from './modules/node'
 import spider from './modules/spider'
 import deploy from './modules/deploy'
@@ -17,6 +18,7 @@ const store = new Vuex.Store({
     app,
     user,
     tagsView,
+    dialogView,
     node,
     spider,
     deploy,

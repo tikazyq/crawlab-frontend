@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import request from '../../api/request'
 
 const state = {
@@ -5,7 +6,10 @@ const state = {
   spiderList: [],
 
   // active spider data
-  spiderForm: {}
+  spiderForm: {},
+
+  // node to deploy/run
+  activeNode: {}
 }
 
 const getters = {}
@@ -16,6 +20,9 @@ const mutations = {
   },
   SET_SPIDER_LIST (state, value) {
     state.spiderList = value
+  },
+  SET_ACTIVE_NODE (state, value) {
+    state.activeNode = value
   }
 }
 
@@ -62,8 +69,10 @@ const actions = {
         commit('SET_SPIDER_FORM', response.data)
       })
   },
-  deploySpider ({ state, dispatch }, id) {
-    return request.post(`/spiders/${id}/deploy`)
+  deploySpider ({ state, dispatch }, { id, nodeId }) {
+    return request.post(`/spiders/${id}/deploy`, {
+      node_id: nodeId
+    })
       .then(response => {
         console.log(response.data)
       })
@@ -72,6 +81,17 @@ const actions = {
     return request.post(`/spiders/${id}/crawl`)
       .then(response => {
         console.log(response.data)
+      })
+  },
+  getDeployList ({ state, commit }, id) {
+    return request.get(`/spiders/${id}/get_deploys`)
+      .then(response => {
+        commit('deploy/SET_DEPLOY_LIST',
+          response.data.items.map(d => {
+            if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            return d
+          }),
+          { root: true })
       })
   }
 }

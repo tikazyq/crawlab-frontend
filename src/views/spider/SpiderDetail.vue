@@ -67,6 +67,9 @@ export default {
         // get spider file info
         this.$store.dispatch('file/getFileList', this.spiderForm.src)
       })
+
+    // get spider deploys
+    this.$store.dispatch('spider/getDeployList', this.$route.params.id)
   }
 }
 </script>
