@@ -82,7 +82,7 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'list',
+        path: '',
         name: 'SpiderList',
         component: () => import('../views/spider/SpiderList'),
         meta: {
@@ -112,16 +112,16 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'list',
+        path: '',
         name: 'TaskList',
         component: () => import('../views/task/TaskList'),
         meta: {
-          title: 'Task List',
+          title: 'Tasks',
           icon: 'fa fa-list'
         }
       },
       {
-        path: 'detail',
+        path: ':id',
         name: 'TaskDetail',
         component: () => import('../views/task/TaskDetail'),
         meta: {
@@ -146,7 +146,7 @@ export const constantRouterMap = [
         name: 'DeployList',
         component: () => import('../views/deploy/DeployList'),
         meta: {
-          title: 'Deploy List',
+          title: 'Deploys',
           icon: 'fa fa-cloud'
         }
       },

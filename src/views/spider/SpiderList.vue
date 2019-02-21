@@ -54,9 +54,10 @@
                    icon="el-icon-refresh"
                    class="refresh"
                    @click="onRefresh">
-          Search
+          Refresh
         </el-button>
         <el-button type="primary"
+                   v-if="false"
                    icon="el-icon-plus"
                    class="add"
                    @click="onAdd">
@@ -79,9 +80,9 @@
                          align="center"
                          :width="col.width">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.type === 1">Scrapy</el-tag>
-            <el-tag type="warning" v-else-if="scope.row.type === 2">PySpider</el-tag>
-            <el-tag type="info" v-else-if="scope.row.type === 3">WebMagic</el-tag>
+            <el-tag v-if="scope.row.type === 'scrapy'">Scrapy</el-tag>
+            <el-tag type="warning" v-else-if="scope.row.type === 'pyspider'">PySpider</el-tag>
+            <el-tag type="info" v-else-if="scope.row.type === 'webmagic'">WebMagic</el-tag>
             <el-tag type="success" v-else>Other</el-tag>
           </template>
         </el-table-column>
@@ -92,9 +93,10 @@
                          align="center"
                          :width="col.width">
           <template slot-scope="scope">
-            <el-tag v-if="scope.row.lang === 1">Python</el-tag>
-            <el-tag type="warning" v-else-if="scope.row.lang === 2">Nodejs</el-tag>
-            <el-tag type="info" v-else-if="scope.row.lang === 3">Java</el-tag>
+            <el-tag type="warning" v-if="scope.row.lang === 'python'">Python</el-tag>
+            <el-tag type="warning" v-else-if="scope.row.lang === 'javascript'">JavaScript</el-tag>
+            <el-tag type="info" v-else-if="scope.row.lang === 'java'">Java</el-tag>
+            <el-tag type="danger" v-else-if="scope.row.lang === 'go'">Go</el-tag>
             <el-tag type="success" v-else>Other</el-tag>
           </template>
         </el-table-column>

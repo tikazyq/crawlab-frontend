@@ -1,12 +1,11 @@
 import request from '../../api/request'
 
 const state = {
-  // SpiderList
+  // list of spiders
   spiderList: [],
-  spiderForm: {},
 
-  // SpiderDetail
-  spiderData: {}
+  // active spider data
+  spiderForm: {}
 }
 
 const getters = {}
@@ -17,9 +16,6 @@ const mutations = {
   },
   SET_SPIDER_LIST (state, value) {
     state.spiderList = value
-  },
-  SET_SPIDER_DATA (state, value) {
-    state.spiderData = value
   }
 }
 

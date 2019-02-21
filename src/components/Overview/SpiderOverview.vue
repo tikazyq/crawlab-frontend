@@ -37,23 +37,24 @@
             <el-input v-model="spiderForm.name" placeholder="Spider Name"></el-input>
           </el-form-item>
           <el-form-item label="Source Folder">
-            <el-input v-model="spiderForm.src" placeholder="Source Folder"></el-input>
+            <el-input v-model="spiderForm.src" placeholder="Source Folder" disabled></el-input>
           </el-form-item>
           <el-form-item label="Execute Command">
             <el-input v-model="spiderForm.cmd" placeholder="Execute Command"></el-input>
           </el-form-item>
           <el-form-item label="Spider Type">
-            <el-select v-model="spiderForm.type" placeholder="Select Spider Type">
-              <el-option :value="1" label="Scrapy"></el-option>
-              <el-option :value="2" label="PySpider"></el-option>
-              <el-option :value="3" label="WebMagic"></el-option>
+            <el-select v-model="spiderForm.type" placeholder="Select Spider Type" clearable>
+              <el-option value="scrapy" label="Scrapy"></el-option>
+              <el-option value="pyspider" label="PySpider"></el-option>
+              <el-option value="webmagic" label="WebMagic"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Language">
-            <el-select v-model="spiderForm.lang" placeholder="Select Language">
-              <el-option :value="1" label="Python"></el-option>
-              <el-option :value="2" label="Nodejs"></el-option>
-              <el-option :value="3" label="Java"></el-option>
+            <el-select v-model="spiderForm.lang" placeholder="Select Language" clearable>
+              <el-option value="python" label="Python"></el-option>
+              <el-option value="javascript" label="JavaScript"></el-option>
+              <el-option value="java" label="Java"></el-option>
+              <el-option value="go" label="Go"></el-option>
             </el-select>
           </el-form-item>
         </el-form>

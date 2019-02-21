@@ -71,6 +71,10 @@ export default {
     onDeploy () {
     },
     onSave () {
+      this.$store.dispatch('node/editNode')
+        .then(() => {
+          this.$message.success('Node has been saved successfully')
+        })
     }
   },
   created () {
