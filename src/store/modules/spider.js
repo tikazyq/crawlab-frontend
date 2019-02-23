@@ -6,7 +6,7 @@ const state = {
   spiderList: [],
 
   // active spider data
-  spiderForm: {},
+  spiderForm: { _id: {} },
 
   // node to deploy/run
   activeNode: {}
@@ -77,8 +77,11 @@ const actions = {
         console.log(response.data)
       })
   },
-  crawlSpider ({ state, dispatch }, id) {
-    return request.post(`/spiders/${id}/crawl`)
+  crawlSpider ({ state, dispatch }, payload) {
+    const { id, nodeId } = payload
+    return request.post(`/spiders/${id}/crawl`, {
+      node_id: nodeId
+    })
       .then(response => {
         console.log(response.data)
       })
@@ -90,10 +93,23 @@ const actions = {
           response.data.items.map(d => {
             if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
             return d
-          }),
+          }).sort((a, b) => a.finish_ts < b.finish_ts ? 1 : -1),
+          { root: true })
+      })
+  },
+  getTaskList ({ state, commit }, id) {
+    return request.get(`/spiders/${id}/get_tasks`)
+      .then(response => {
+        commit('task/SET_TASK_LIST',
+          response.data.items.map(d => {
+            if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            return d
+          }).sort((a, b) => a.create_ts < b.create_ts ? 1 : -1),
           { root: true })
       })
   }
+
 }
 
 export default {

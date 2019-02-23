@@ -1,17 +1,9 @@
 <template>
   <el-row>
-    <el-col :span="11" :offset="1">
+    <el-col :span="12">
       <!--last tasks-->
       <el-row>
-        <h5 class="title">Latest Tasks</h5>
-        <el-table border height="240px">
-          <el-table-column property="node" label="Node" align="center">
-          </el-table-column>
-          <el-table-column property="status" label="Status" align="center">
-          </el-table-column>
-          <el-table-column property="Create" label="Create Time" align="center">
-          </el-table-column>
-        </el-table>
+        <task-table-view title="Latest Tasks"/>
       </el-row>
 
       <!--last deploys-->
@@ -22,46 +14,7 @@
 
     <el-col :span="12">
       <!--basic info-->
-      <el-row>
-        <el-form label-width="150px"
-                 :model="spiderForm"
-                 ref="spiderForm"
-                 class="spider-form"
-                 label-position="right">
-          <el-form-item label="Spider ID">
-            <el-input v-model="spiderForm._id.$oid" placeholder="Spider ID" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="Spider Name">
-            <el-input v-model="spiderForm.name" placeholder="Spider Name"></el-input>
-          </el-form-item>
-          <el-form-item label="Source Folder">
-            <el-input v-model="spiderForm.src" placeholder="Source Folder" disabled></el-input>
-          </el-form-item>
-          <el-form-item label="Execute Command">
-            <el-input v-model="spiderForm.cmd" placeholder="Execute Command"></el-input>
-          </el-form-item>
-          <el-form-item label="Spider Type">
-            <el-select v-model="spiderForm.type" placeholder="Select Spider Type" clearable>
-              <el-option value="scrapy" label="Scrapy"></el-option>
-              <el-option value="pyspider" label="PySpider"></el-option>
-              <el-option value="webmagic" label="WebMagic"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Language">
-            <el-select v-model="spiderForm.lang" placeholder="Select Language" clearable>
-              <el-option value="python" label="Python"></el-option>
-              <el-option value="javascript" label="JavaScript"></el-option>
-              <el-option value="java" label="Java"></el-option>
-              <el-option value="go" label="Go"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
-      </el-row>
-      <el-row class="button-container">
-        <el-button type="success" @click="onRun">Run</el-button>
-        <el-button type="primary" @click="onDeploy">Deploy</el-button>
-        <el-button type="info" @click="onSave">Save</el-button>
-      </el-row>
+      <spider-info-view/>
     </el-col>
   </el-row>
 </template>
@@ -71,10 +24,16 @@ import {
   mapState
 } from 'vuex'
 import DeployTableView from '../TableView/DeployTableView'
+import TaskTableView from '../TableView/TaskTableView'
+import SpiderInfoView from '../InfoView/SpiderInfoView'
 
 export default {
   name: 'SpiderOverview',
-  components: { DeployTableView },
+  components: {
+    SpiderInfoView,
+    DeployTableView,
+    TaskTableView
+  },
   data () {
     return {
       // spiderForm: {}
@@ -91,25 +50,7 @@ export default {
       'deployList'
     ])
   },
-  methods: {
-    onRun () {
-      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderRun')
-    },
-    onDeploy () {
-      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderDeploy')
-    },
-    onSave () {
-      this.$store.dispatch('spider/editSpider')
-        .then(() => {
-          this.$message.success('Spider info has been saved successfully')
-        })
-        .catch(error => {
-          this.$message.error(error)
-        })
-    }
-  },
+  methods: {},
   created () {
   }
 }
@@ -118,15 +59,5 @@ export default {
 <style scoped>
   .title {
     margin: 10px 0 3px 0;
-  }
-
-  .spider-form {
-    padding: 10px;
-  }
-
-  .button-container {
-    padding: 0 10px;
-    width: 100%;
-    text-align: right;
   }
 </style>

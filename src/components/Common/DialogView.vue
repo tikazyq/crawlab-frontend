@@ -123,12 +123,32 @@ export default {
           nodeId: this.activeNode._id
         })
           .then(() => {
-            this.$message.success(`Spider "${this.spiderForm.name}" is deployed on node "${this.activeNode._id}" successfully`)
+            this.$message.success(`Spider "${this.spiderForm.name}" has been deployed on node "${this.activeNode._id}" successfully`)
           })
           .finally(() => {
+            // get spider deploys
+            this.$store.dispatch('spider/getDeployList', this.$route.params.id)
+
+            // close dialog
             this.$store.commit('dialogView/SET_DIALOG_VISIBLE', false)
           })
       } else if (this.dialogType === 'spiderRun') {
+        this.$store.dispatch('spider/crawlSpider', {
+          id: this.spiderForm._id.$oid,
+          nodeId: this.activeNode._id
+        })
+          .then(() => {
+            this.$message.success(`Spider "${this.spiderForm.name}" started to run on node "${this.activeNode._id}"`)
+          })
+          .finally(() => {
+            // get spider tasks
+            setTimeout(() => {
+              this.$store.dispatch('spider/getTaskList', this.$route.params.id)
+            }, 500)
+
+            // close dialog
+            this.$store.commit('dialogView/SET_DIALOG_VISIBLE', false)
+          })
       } else {
       }
     }

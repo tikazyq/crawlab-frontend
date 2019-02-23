@@ -27,7 +27,20 @@ export default {
     padding: 3px 0;
   }
 
+  .el-table .el-table__header th .cell,
+  .el-table .el-table__body td .cell {
+    word-break: break-word;
+  }
+
   .el-select {
     width: 100%;
+  }
+
+  .el-table .el-tag {
+    font-size: 12px;
+    height: 24px;
+    line-height: 24px;
+    font-weight: 900;
+    /*padding: 0;*/
   }
 </style>

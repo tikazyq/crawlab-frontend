@@ -142,7 +142,7 @@ export const constantRouterMap = [
     },
     children: [
       {
-        path: 'list',
+        path: '',
         name: 'DeployList',
         component: () => import('../views/deploy/DeployList'),
         meta: {
@@ -151,7 +151,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: 'detail',
+        path: ':id',
         name: 'DeployDetail',
         component: () => import('../views/deploy/DeployDetail'),
         meta: {

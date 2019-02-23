@@ -25,16 +25,37 @@
               :header-cell-style="{background:'rgb(48, 65, 86)',color:'white'}"
               border>
       <template v-for="col in columns">
-        <el-table-column v-if="col.name === 'status'"
+        <el-table-column v-if="col.name === 'spider_name'"
                          :key="col.name"
                          :label="col.label"
                          :sortable="col.sortable"
                          align="center"
                          :width="col.width">
           <template slot-scope="scope">
-            <el-tag type="success" v-if="scope.row.status === 'SUCCESS'">Success</el-tag>
-            <el-tag type="danger" v-else-if="scope.row.status === 'FAILURE'">Failure</el-tag>
-            <el-tag type="info" v-else>{{scope.row.status}}</el-tag>
+            <a href="javascript:" class="a-tag" @click="onClickSpider(scope.row)">{{scope.row[col.name]}}</a>
+          </template>
+        </el-table-column>
+        <el-table-column v-else-if="col.name === 'node_id'"
+                         :key="col.name"
+                         :label="col.label"
+                         :sortable="col.sortable"
+                         align="center"
+                         :width="col.width">
+          <template slot-scope="scope">
+            <a href="javascript:" class="a-tag" @click="onClickNode(scope.row)">{{scope.row[col.name]}}</a>
+          </template>
+        </el-table-column>
+        <el-table-column v-else-if="col.name === 'status'"
+                         :key="col.name"
+                         :label="col.label"
+                         :sortable="col.sortable"
+                         align="center"
+                         :width="col.width">
+          <template slot-scope="scope">
+            <el-tag type="success" v-if="scope.row.status === 'SUCCESS'">SUCCESS</el-tag>
+            <el-tag type="warning" v-else-if="scope.row.status === 'PENDING'">PENDING</el-tag>
+            <el-tag type="danger" v-else-if="scope.row.status === 'FAILURE'">FAILURE</el-tag>
+            <el-tag type="info" v-else>{{scope.row[col.name]}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column v-else
@@ -48,8 +69,9 @@
       </template>
       <el-table-column label="Action" align="center" width="180">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
+          <el-tooltip content="View" placement="top">
+            <el-button type="info" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -85,7 +107,7 @@ export default {
         { name: 'create_ts', label: 'Create Date', width: '150' },
         { name: 'finish_ts', label: 'Finish Date', width: '150' },
         { name: 'spider_name', label: 'Spider', width: '160' },
-        { name: 'hostname', label: 'Node', width: 'auto' },
+        { name: 'node_id', label: 'Node', width: 'auto' },
         { name: 'status', label: 'Status', width: '160', sortable: true }
       ]
     }
@@ -107,8 +129,8 @@ export default {
         return false
       }).map(d => {
         // debugger
-        d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
-        d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+        if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+        if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
 
         try {
           d.spider_id = d.spider_id.$oid
@@ -123,19 +145,8 @@ export default {
     onSearch (value) {
       console.log(value)
     },
-    onAdd () {
-      this.$store.commit('task/SET_TASK_FORM', {})
-      this.isEditMode = false
-      this.dialogVisible = true
-    },
     onRefresh () {
       this.$store.dispatch('task/getTaskList')
-    },
-    onEdit (row) {
-      console.log(row)
-      this.isEditMode = true
-      this.$store.commit('task/SET_TASK_FORM', row)
-      this.dialogVisible = true
     },
     onRemove (row) {
       this.$confirm('Are you sure to delete this task?', 'Notification', {
@@ -143,7 +154,7 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('task/deleteTask', row._id.$oid)
+        this.$store.dispatch('task/deleteTask', row._id)
           .then(() => {
             this.$message({
               type: 'success',
@@ -152,14 +163,14 @@ export default {
           })
       })
     },
-    onDeploy (row) {
-      this.$store.dispatch('task/deployTask', row._id.$oid)
-    },
-    onCrawl (row) {
-      this.$store.dispatch('task/crawlTask', row._id.$oid)
-    },
     onView (row) {
-      this.$router.push(`/tasks/${row._id.$oid}`)
+      this.$router.push(`/tasks/${row._id}`)
+    },
+    onClickSpider (row) {
+      this.$router.push(`/spiders/${row.spider_id}`)
+    },
+    onClickNode (row) {
+      this.$router.push(`/nodes/${row.node_id}`)
     }
   },
   created () {
@@ -198,5 +209,9 @@ export default {
 
   .delete-confirm {
     background-color: red;
+  }
+
+  .el-table .a-tag {
+    text-decoration: underline;
   }
 </style>

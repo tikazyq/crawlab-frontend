@@ -1,3 +1,4 @@
+import dayjs from 'dayjs'
 import request from '../../api/request'
 
 const state = {
@@ -18,14 +19,25 @@ const mutations = {
 }
 
 const actions = {
+  getTaskData ({ state, dispatch, commit }, id) {
+    return request.get(`/tasks/${id}`)
+      .then(response => {
+        let data = response.data
+        if (data.create_ts) data.create_ts = dayjs(data.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+        if (data.finish_ts) data.finish_ts = dayjs(data.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+        commit('SET_TASK_FORM', data)
+        dispatch('spider/getSpiderData', data.spider_id.$oid, { root: true })
+        dispatch('node/getNodeData', data.node_id, { root: true })
+      })
+  },
   getTaskList ({ state, commit }) {
-    request.get('/tasks', {})
+    return request.get('/tasks', {})
       .then(response => {
         commit('SET_TASK_LIST', response.data.items)
       })
   },
   deleteTask ({ state, dispatch }, id) {
-    request.delete(`/tasks/${id}`)
+    return request.delete(`/tasks/${id}`)
       .then(() => {
         dispatch('getTaskList')
       })

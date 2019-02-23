@@ -78,6 +78,7 @@ export default {
 </script>
 
 <style scoped>
+
   .selector {
     display: flex;
     align-items: center;

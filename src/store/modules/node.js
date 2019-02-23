@@ -72,7 +72,19 @@ const actions = {
           response.data.items.map(d => {
             if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
             return d
-          }),
+          }).sort((a, b) => a.finish_ts < b.finish_ts ? 1 : -1),
+          { root: true })
+      })
+  },
+  getTaskList ({ state, commit }, id) {
+    return request.get(`/nodes/${id}/get_tasks`)
+      .then(response => {
+        commit('task/SET_TASK_LIST',
+          response.data.items.map(d => {
+            if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+            return d
+          }).sort((a, b) => a.create_ts < b.create_ts ? 1 : -1),
           { root: true })
       })
   }

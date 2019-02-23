@@ -1,17 +1,9 @@
 <template>
   <el-row>
-    <el-col :span="11" :offset="1">
+    <el-col :span="12">
       <!--last tasks-->
       <el-row>
-        <h5 class="title">Latest Tasks</h5>
-        <el-table border height="240px">
-          <el-table-column property="node" label="Node" align="center">
-          </el-table-column>
-          <el-table-column property="status" label="Status" align="center">
-          </el-table-column>
-          <el-table-column property="Create" label="Create Time" align="center">
-          </el-table-column>
-        </el-table>
+        <task-table-view title="Latest Tasks"/>
       </el-row>
 
       <!--last deploys-->
@@ -22,25 +14,7 @@
 
     <el-col :span="12">
       <!--basic info-->
-      <el-row>
-        <el-form label-width="150px"
-                 :model="nodeForm"
-                 ref="spiderForm"
-                 class="spider-form"
-                 label-position="right">
-          <el-form-item label="Node Name">
-            <el-input v-model="nodeForm.name" disabled placeholder="Node Name"></el-input>
-          </el-form-item>
-          <el-form-item label="Description">
-            <el-input type="textarea" v-model="nodeForm.description" placeholder="Description"></el-input>
-          </el-form-item>
-        </el-form>
-      </el-row>
-      <el-row class="button-container">
-        <!--<el-button type="warning">Run</el-button>-->
-        <!--<el-button type="primary" @click="onDeploy">Deploy</el-button>-->
-        <el-button type="success" @click="onSave">Save</el-button>
-      </el-row>
+      <node-info-view/>
     </el-col>
   </el-row>
 </template>
@@ -50,16 +24,15 @@ import {
   mapState
 } from 'vuex'
 import DeployTableView from '../TableView/DeployTableView'
+import TaskTableView from '../TableView/TaskTableView'
+import NodeInfoView from '../InfoView/NodeInfoView'
 
 export default {
-  name: 'SpiderOverview',
+  name: 'NodeOverview',
   components: {
-    DeployTableView
-  },
-  data () {
-    return {
-      // spiderForm: {}
-    }
+    NodeInfoView,
+    DeployTableView,
+    TaskTableView
   },
   computed: {
     id () {
@@ -69,23 +42,7 @@ export default {
       'nodeForm'
     ])
   },
-  methods: {
-    onRun () {
-      // this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      // this.$store.commit('dialogView/SET_DIALOG_TYPE', 'nodeRun')
-    },
-    onDeploy () {
-      this.$store.commit('node/SET_ACTIVE_SPIDER', { _id: {} })
-      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'nodeDeploy')
-    },
-    onSave () {
-      this.$store.dispatch('node/editNode')
-        .then(() => {
-          this.$message.success('Node has been saved successfully')
-        })
-    }
-  },
+  methods: {},
   created () {
   }
 }
@@ -94,15 +51,5 @@ export default {
 <style scoped>
   .title {
     margin: 10px 0 3px 0;
-  }
-
-  .spider-form {
-    padding: 10px;
-  }
-
-  .button-container {
-    padding: 0 10px;
-    width: 100%;
-    text-align: right;
   }
 </style>
