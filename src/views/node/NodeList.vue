@@ -21,7 +21,6 @@
     <!--table list-->
     <el-table :data="filteredTableData"
               class="table"
-              height="500"
               :header-cell-style="{background:'rgb(48, 65, 86)',color:'white'}"
               border>
       <template v-for="col in columns">
@@ -57,6 +56,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        @current-change="onPageChange"
+        @size-change="onPageChange"
+        :current-page.sync="pagination.pageNum"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size.sync="pagination.pageSize"
+        layout="sizes, prev, pager, next"
+        :total="nodeList.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -68,16 +78,11 @@ import {
 export default {
   name: 'NodeList',
   data () {
-    // let tableData = []
-    // for (let i = 0; i < 50; i++) {
-    //   tableData.push({
-    //     node_name: `Node ${Math.floor(Math.random() * 100)}`,
-    //     node_ip: '127.0.0.1:8888',
-    //     'node_description': `The ID of the node is ${Math.random().toString().replace('0.', '')}`,
-    //     status: Math.floor(Math.random() * 100) % 2
-    //   })
-    // }
     return {
+      pagination: {
+        pageNum: 0,
+        pageSize: 10
+      },
       isEditMode: false,
       dialogVisible: false,
       filter: {
@@ -173,6 +178,9 @@ export default {
     },
     onView (row) {
       this.$router.push(`/nodes/${row._id}`)
+    },
+    onPageChange () {
+      this.$store.dispatch('node/getNodeList')
     }
   },
   created () {

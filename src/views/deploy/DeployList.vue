@@ -21,7 +21,6 @@
     <!--table list-->
     <el-table :data="filteredTableData"
               class="table"
-              height="500"
               :header-cell-style="{background:'rgb(48, 65, 86)',color:'white'}"
               border>
       <template v-for="col in columns">
@@ -57,14 +56,22 @@
       <el-table-column label="Action" align="center" width="160">
         <template slot-scope="scope">
           <el-tooltip content="View" placement="top">
-            <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+            <el-button type="info" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
           </el-tooltip>
-          <!--<el-tooltip content="Edit" placement="top">-->
-          <!--<el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>-->
-          <!--</el-tooltip>-->
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        @current-change="onPageChange"
+        @size-change="onPageChange"
+        :current-page.sync="pagination.pageNum"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size.sync="pagination.pageSize"
+        layout="sizes, prev, pager, next"
+        :total="deployList.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -77,6 +84,10 @@ export default {
   name: 'DeployList',
   data () {
     return {
+      pagination: {
+        pageNum: 0,
+        pageSize: 10
+      },
       filter: {
         keyword: ''
       },
@@ -127,6 +138,9 @@ export default {
     },
     onClickNode (row) {
       this.$router.push(`/nodes/${row.node_id}`)
+    },
+    onPageChange () {
+      this.$store.dispatch('deploy/getDeployList')
     }
   },
   created () {

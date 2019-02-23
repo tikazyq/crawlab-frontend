@@ -69,7 +69,6 @@
     <!--table list-->
     <el-table :data="filteredTableData"
               class="table"
-              height="500"
               :header-cell-style="{background:'rgb(48, 65, 86)',color:'white'}"
               border>
       <template v-for="col in columns">
@@ -94,7 +93,7 @@
                          :width="col.width">
           <template slot-scope="scope">
             <el-tag type="warning" v-if="scope.row.lang === 'python'">Python</el-tag>
-            <el-tag type="warning" v-else-if="scope.row.lang === 'javascript'">JavaScript</el-tag>
+            <el-tag type="primary" v-else-if="scope.row.lang === 'javascript'">JavaScript</el-tag>
             <el-tag type="info" v-else-if="scope.row.lang === 'java'">Java</el-tag>
             <el-tag type="danger" v-else-if="scope.row.lang === 'go'">Go</el-tag>
             <el-tag type="success" v-else>Other</el-tag>
@@ -129,6 +128,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        @current-change="onPageChange"
+        @size-change="onPageChange"
+        :current-page.sync="pagination.pageNum"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size.sync="pagination.pageSize"
+        layout="sizes, prev, pager, next"
+        :total="spiderList.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -140,16 +150,11 @@ import {
 export default {
   name: 'SpiderList',
   data () {
-    // let tableData = []
-    // for (let i = 0; i < 50; i++) {
-    //   tableData.push({
-    //     spider_name: `Spider ${Math.floor(Math.random() * 100)}`,
-    //     spider_ip: '127.0.0.1:8888',
-    //     'spider_description': `The ID of the spider is ${Math.random().toString().replace('0.', '')}`,
-    //     status: Math.floor(Math.random() * 100) % 2
-    //   })
-    // }
     return {
+      pagination: {
+        pageNum: 0,
+        pageSize: 10
+      },
       isEditMode: false,
       dialogVisible: false,
       filter: {
@@ -254,6 +259,9 @@ export default {
     },
     onView (row) {
       this.$router.push(`/spiders/${row._id.$oid}`)
+    },
+    onPageChange () {
+      this.$store.dispatch('spider/getSpiderList')
     }
   },
   created () {
@@ -293,4 +301,5 @@ export default {
   .delete-confirm {
     background-color: red;
   }
+
 </style>

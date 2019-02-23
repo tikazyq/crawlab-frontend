@@ -24,6 +24,9 @@
         <el-form-item label="Finish Timestamp">
           <el-input v-model="taskForm.finish_ts" placeholder="Finish Timestamp" disabled></el-input>
         </el-form-item>
+        <el-form-item label="Duration (sec)">
+          <el-input v-model="taskForm.duration" placeholder="Duration" disabled></el-input>
+        </el-form-item>
         <el-form-item label="Error Message" v-if="taskForm.status === 'FAILURE'">
           <div class="error-message">
             {{taskForm.result}}

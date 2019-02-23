@@ -42,9 +42,6 @@ export default {
     }
   },
   computed: {
-    id () {
-      return this.$route.params.id
-    },
     ...mapState('node', [
       'nodeForm'
     ]),
@@ -53,20 +50,11 @@ export default {
     ])
   },
   methods: {
-    onRun () {
-      // this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      // this.$store.commit('dialogView/SET_DIALOG_TYPE', 'nodeRun')
-    },
-    onDeploy () {
-      this.$store.commit('node/SET_ACTIVE_SPIDER', { _id: {} })
-      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'nodeDeploy')
-    },
     onClickNodeTitle () {
       this.$router.push(`/nodes/${this.nodeForm._id}`)
     },
     onClickSpiderTitle () {
-      this.$router.push(`/nodes/${this.spiderForm._id.$oid}`)
+      this.$router.push(`/spiders/${this.spiderForm._id.$oid}`)
     }
   },
   created () {

@@ -15,8 +15,9 @@
         <el-form-item label="Source Folder">
           <el-input v-model="spiderForm.src" placeholder="Source Folder" disabled></el-input>
         </el-form-item>
-        <el-form-item label="Execute Command">
-          <el-input v-model="spiderForm.cmd" placeholder="Execute Command" :disabled="isView"></el-input>
+        <el-form-item label="Execute Command" prop="cmd" :rule="cmdRule" required>
+          <el-input v-model="spiderForm.cmd" placeholder="Execute Command"
+                    :disabled="isView"></el-input>
         </el-form-item>
         <el-form-item label="Spider Type">
           <el-select v-model="spiderForm.type" placeholder="Select Spider Type" :disabled="isView" clearable>
@@ -26,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="Language">
-          <el-select v-model="spiderForm.lang" placeholder="Select Language":disabled="isView"  clearable>
+          <el-select v-model="spiderForm.lang" placeholder="Select Language" :disabled="isView" clearable>
             <el-option value="python" label="Python"></el-option>
             <el-option value="javascript" label="JavaScript"></el-option>
             <el-option value="java" label="Java"></el-option>
@@ -56,6 +57,13 @@ export default {
       type: Boolean
     }
   },
+  data () {
+    return {
+      cmdRule: [
+        { message: 'Execute Command should not be empty', required: true }
+      ]
+    }
+  },
   computed: {
     ...mapState('spider', [
       'spiderForm'
@@ -63,21 +71,29 @@ export default {
   },
   methods: {
     onRun () {
-      this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
-      this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderRun')
+      this.$refs['spiderForm'].validate(res => {
+        if (res) {
+          this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
+          this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderRun')
+        }
+      })
     },
     onDeploy () {
       this.$store.commit('dialogView/SET_DIALOG_VISIBLE', true)
       this.$store.commit('dialogView/SET_DIALOG_TYPE', 'spiderDeploy')
     },
     onSave () {
-      this.$store.dispatch('spider/editSpider')
-        .then(() => {
-          this.$message.success('Spider info has been saved successfully')
-        })
-        .catch(error => {
-          this.$message.error(error)
-        })
+      this.$refs['spiderForm'].validate(res => {
+        if (res) {
+          this.$store.dispatch('spider/editSpider')
+            .then(() => {
+              this.$message.success('Spider info has been saved successfully')
+            })
+            .catch(error => {
+              this.$message.error(error)
+            })
+        }
+      })
     }
   }
 }

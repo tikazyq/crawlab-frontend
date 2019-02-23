@@ -21,7 +21,6 @@
     <!--table list-->
     <el-table :data="filteredTableData"
               class="table"
-              height="500"
               :header-cell-style="{background:'rgb(48, 65, 86)',color:'white'}"
               border>
       <template v-for="col in columns">
@@ -75,6 +74,17 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination">
+      <el-pagination
+        @current-change="onPageChange"
+        @size-change="onPageChange"
+        :current-page.sync="pagination.pageNum"
+        :page-sizes="[10, 20, 50, 100]"
+        :page-size.sync="pagination.pageSize"
+        layout="sizes, prev, pager, next"
+        :total="taskList.length">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -87,16 +97,11 @@ import dayjs from 'dayjs'
 export default {
   name: 'TaskList',
   data () {
-    // let tableData = []
-    // for (let i = 0; i < 50; i++) {
-    //   tableData.push({
-    //     task_name: `Task ${Math.floor(Math.random() * 100)}`,
-    //     task_ip: '127.0.0.1:8888',
-    //     'task_description': `The ID of the task is ${Math.random().toString().replace('0.', '')}`,
-    //     status: Math.floor(Math.random() * 100) % 2
-    //   })
-    // }
     return {
+      pagination: {
+        pageNum: 0,
+        pageSize: 10
+      },
       isEditMode: false,
       dialogVisible: false,
       filter: {
@@ -127,6 +132,9 @@ export default {
           }
         }
         return false
+      }).filter((d, index) => {
+        const { pageNum, pageSize } = this.pagination
+        return (pageSize * (pageNum - 1) <= index) && (index < pageSize * pageNum)
       }).map(d => {
         // debugger
         if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
@@ -171,6 +179,9 @@ export default {
     },
     onClickNode (row) {
       this.$router.push(`/nodes/${row.node_id}`)
+    },
+    onPageChange () {
+      this.$store.dispatch('task/getTaskList')
     }
   },
   created () {
@@ -213,5 +224,10 @@ export default {
 
   .el-table .a-tag {
     text-decoration: underline;
+  }
+
+  .pagination {
+    margin-top: 10px;
+    text-align: right;
   }
 </style>

@@ -6,6 +6,11 @@
         <task-overview/>
       </el-tab-pane>
       <el-tab-pane label="Log" name="log">
+        <div class="log-view">
+          <pre>
+            {{taskLog}}
+          </pre>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -29,8 +34,7 @@ export default {
   },
   computed: {
     ...mapState('task', [
-      'spiderList',
-      'spiderForm'
+      'taskLog'
     ]),
     ...mapState('file', [
       'currentPath'
@@ -48,6 +52,7 @@ export default {
   },
   created () {
     this.$store.dispatch('task/getTaskData', this.$route.params.id)
+    this.$store.dispatch('task/getTaskLog', this.$route.params.id)
   }
 }
 </script>

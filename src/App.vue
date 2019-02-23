@@ -43,4 +43,9 @@ export default {
     font-weight: 900;
     /*padding: 0;*/
   }
+
+  .pagination {
+    margin-top: 10px;
+    text-align: right;
+  }
 </style>
