@@ -52,7 +52,7 @@ export default {
       const option = {
         xAxis: {
           type: 'category',
-          data: this.dailyTasks.map(d => d._id)
+          data: this.dailyTasks.map(d => d.date)
         },
         yAxis: {
           type: 'value'
@@ -60,9 +60,11 @@ export default {
         series: [{
           data: this.dailyTasks.map(d => d.count),
           type: 'line',
+          areaStyle: {},
           smooth: true
         }],
         tooltip: {
+          trigger: 'axis',
           show: true
         }
       }

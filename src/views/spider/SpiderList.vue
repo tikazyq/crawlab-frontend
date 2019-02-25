@@ -164,8 +164,8 @@ export default {
       columns: [
         { name: 'name', label: 'Name', width: 'auto' },
         { name: 'type', label: 'Spider Type', width: '160', sortable: true },
-        { name: 'lang', label: 'Language', width: '160', sortable: true },
-        { name: 'status', label: 'Status', width: '160' }
+        { name: 'lang', label: 'Language', width: '160', sortable: true }
+        // { name: 'status', label: 'Status', width: '160' }
       ],
       spiderFormRules: {
         name: [{ required: true, message: 'Required Field', trigger: 'change' }]

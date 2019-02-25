@@ -123,30 +123,35 @@ export default {
       'taskForm'
     ]),
     filteredTableData () {
-      return this.taskList.filter(d => {
-        if (!this.filter.keyword) return true
-        for (let i = 0; i < this.columns.length; i++) {
-          const colName = this.columns[i].name
-          if (d[colName] && d[colName].toLowerCase().indexOf(this.filter.keyword.toLowerCase()) > -1) {
-            return true
-          }
-        }
-        return false
-      }).filter((d, index) => {
-        const { pageNum, pageSize } = this.pagination
-        return (pageSize * (pageNum - 1) <= index) && (index < pageSize * pageNum)
-      }).map(d => {
-        // debugger
-        if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
-        if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+      return this.taskList
+        .map(d => {
+          if (d.create_ts) d.create_ts = dayjs(d.create_ts.$date).format('YYYY-MM-DD HH:mm:ss')
+          if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
 
-        try {
-          d.spider_id = d.spider_id.$oid
-        } catch (e) {
-          if (d.spider_id) d.spider_id = d.spider_id.toString()
-        }
-        return d
-      }).sort((a, b) => a.create_ts < b.create_ts ? 1 : -1)
+          try {
+            d.spider_id = d.spider_id.$oid
+          } catch (e) {
+            if (d.spider_id) d.spider_id = d.spider_id.toString()
+          }
+          return d
+        })
+        .sort((a, b) => a.create_ts < b.create_ts ? 1 : -1)
+        .filter(d => {
+          // keyword
+          if (!this.filter.keyword) return true
+          for (let i = 0; i < this.columns.length; i++) {
+            const colName = this.columns[i].name
+            if (d[colName] && d[colName].toLowerCase().indexOf(this.filter.keyword.toLowerCase()) > -1) {
+              return true
+            }
+          }
+          return false
+        })
+        .filter((d, index) => {
+          // pagination
+          const { pageNum, pageSize } = this.pagination
+          return (pageSize * (pageNum - 1) <= index) && (index < pageSize * pageNum)
+        })
     }
   },
   methods: {

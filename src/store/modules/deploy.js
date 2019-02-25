@@ -20,7 +20,7 @@ const actions = {
         commit('SET_DEPLOY_LIST', response.data.items.map(d => {
           if (d.finish_ts) d.finish_ts = dayjs(d.finish_ts.$date).format('YYYY-MM-DD HH:mm:ss')
           return d
-        }))
+        }).sort((a, b) => a.finish_ts < b.finish_ts ? 1 : -1))
       })
   }
 }
