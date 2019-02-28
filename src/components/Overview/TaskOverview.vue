@@ -6,16 +6,16 @@
         <task-info-view/>
       </el-row>
       <el-row style="border-bottom:1px solid #e4e7ed;margin:0 0 20px 0;padding-bottom:20px;"/>
-      <el-row>
-        <h4 class="title node-title" @click="onClickNodeTitle">Node Info</h4>
-        <node-info-view :is-view="true"/>
-      </el-row>
     </el-col>
 
     <el-col :span="12">
       <el-row>
         <h4 class="title spider-title" @click="onClickSpiderTitle">Spider Info</h4>
         <spider-info-view :is-view="true"/>
+      </el-row>
+      <el-row>
+        <h4 class="title node-title" @click="onClickNodeTitle">Node Info</h4>
+        <node-info-view :is-view="true"/>
       </el-row>
     </el-col>
   </el-row>

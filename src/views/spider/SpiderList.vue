@@ -2,42 +2,28 @@
   <div class="app-container">
     <!--add popup-->
     <el-dialog
-      :title="isEditMode ? 'Edit Spider' : 'Add Spider'"
+      title="Import Spider"
       :visible.sync="dialogVisible"
       width="60%"
       :before-close="onDialogClose">
       <el-form label-width="150px"
-               :model="spiderForm"
-               :rules="spiderFormRules"
+               :model="importForm"
                ref="spiderForm"
                label-position="right">
-        <el-form-item label="Spider Name">
-          <el-input v-model="spiderForm.name" placeholder="Spider Name"></el-input>
+        <el-form-item label="Source URL" prop="url" required>
+          <el-input v-model="importForm.url" placeholder="Source URL"></el-input>
         </el-form-item>
-        <el-form-item label="Source Folder">
-          <el-input v-model="spiderForm.src" placeholder="Source Folder"></el-input>
-        </el-form-item>
-        <el-form-item label="Execute Command">
-          <el-input v-model="spiderForm.cmd" placeholder="Execute Command"></el-input>
-        </el-form-item>
-        <el-form-item label="Spider Type">
-          <el-select v-model="spiderForm.type" placeholder="Select Spider Type">
-            <el-option :value="1" label="Scrapy"></el-option>
-            <el-option :value="2" label="PySpider"></el-option>
-            <el-option :value="3" label="WebMagic"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Language">
-          <el-select v-model="spiderForm.lang" placeholder="Select Language">
-            <el-option :value="1" label="Python"></el-option>
-            <el-option :value="2" label="Nodejs"></el-option>
-            <el-option :value="3" label="Java"></el-option>
+        <el-form-item label="Source Type" prop="type" required>
+          <el-select v-model="importForm.type" placeholder="Source Type">
+            <el-option value="github"></el-option>
+            <el-option value="gitlab"></el-option>
+            <el-option value="svn"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="onCancel">Cancel</el-button>
-        <el-button type="primary" @click="onSubmit">Submit</el-button>
+        <el-button type="primary" @click="onImport">Import</el-button>
       </span>
     </el-dialog>
 
@@ -50,9 +36,26 @@
                 @change="onSearch">
       </el-input>
       <div class="right">
+        <el-dropdown class="btn">
+          <el-button type="primary" icon="el-icon-upload">
+            Import Spiders
+            <i class="el-icon-arrow-down el-icon--right"></i>
+          </el-button>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>
+              <div @click="openImportDialog('github')">Github</div>
+            </el-dropdown-item>
+            <el-dropdown-item disabled>
+              <span @click="openImportDialog('gitlab')">Gitlab</span>
+            </el-dropdown-item>
+            <el-dropdown-item disabled>
+              <span @click="openImportDialog('svn')">SVN</span>
+            </el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
         <el-button type="success"
                    icon="el-icon-refresh"
-                   class="refresh"
+                   class="btn refresh"
                    @click="onRefresh">
           Refresh
         </el-button>
@@ -82,7 +85,7 @@
             <el-tag v-if="scope.row.type === 'scrapy'">Scrapy</el-tag>
             <el-tag type="warning" v-else-if="scope.row.type === 'pyspider'">PySpider</el-tag>
             <el-tag type="info" v-else-if="scope.row.type === 'webmagic'">WebMagic</el-tag>
-            <el-tag type="success" v-else>Other</el-tag>
+            <el-tag type="success" v-else-if="scope.row.type">{{scope.row.type}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column v-else-if="col.name === 'lang'"
@@ -96,7 +99,7 @@
             <el-tag type="primary" v-else-if="scope.row.lang === 'javascript'">JavaScript</el-tag>
             <el-tag type="info" v-else-if="scope.row.lang === 'java'">Java</el-tag>
             <el-tag type="danger" v-else-if="scope.row.lang === 'go'">Go</el-tag>
-            <el-tag type="success" v-else>Other</el-tag>
+            <el-tag type="success" v-else-if="scope.row.lang">{{scope.row.lang}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column v-else
@@ -164,8 +167,8 @@ export default {
       columns: [
         { name: 'name', label: 'Name', width: 'auto' },
         { name: 'type', label: 'Spider Type', width: '160', sortable: true },
-        { name: 'lang', label: 'Language', width: '160', sortable: true }
-        // { name: 'status', label: 'Status', width: '160' }
+        { name: 'lang', label: 'Language', width: '160', sortable: true },
+        { name: 'latest_version', label: 'Latest Version', width: '120' }
       ],
       spiderFormRules: {
         name: [{ required: true, message: 'Required Field', trigger: 'change' }]
@@ -174,6 +177,7 @@ export default {
   },
   computed: {
     ...mapState('spider', [
+      'importForm',
       'spiderList',
       'spiderForm'
     ]),
@@ -262,6 +266,13 @@ export default {
     },
     onPageChange () {
       this.$store.dispatch('spider/getSpiderList')
+    },
+    onImport () {
+      this.dialogVisible = false
+    },
+    openImportDialog (type) {
+      this.$store.commit('spider/SET_IMPORT_FORM', { type })
+      this.dialogVisible = true
     }
   },
   created () {
@@ -285,7 +296,10 @@ export default {
       width: 240px;
     }
 
-    .add {
+    .right {
+      .btn {
+        margin-left: 10px;
+      }
     }
   }
 

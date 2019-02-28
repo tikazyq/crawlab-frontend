@@ -3,8 +3,8 @@
     <!--selector-->
     <div class="selector">
       <label class="label">Node: </label>
-      <el-select v-model="nodeForm._id.$oid" @change="onNodeChange">
-        <el-option v-for="op in nodeList" :key="op._id.$oid" :value="op._id.$oid" :label="op.name"></el-option>
+      <el-select v-model="nodeForm._id" @change="onNodeChange">
+        <el-option v-for="op in nodeList" :key="op._id" :value="op._id" :label="op.name"></el-option>
       </el-select>
     </div>
 

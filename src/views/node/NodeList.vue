@@ -90,9 +90,9 @@ export default {
       },
       // tableData,
       columns: [
-        { name: 'name', label: 'Name', width: '320' },
-        // { name: 'ip', label: 'IP', width: '160' },
-        // { name: 'port', label: 'Port', width: '80' },
+        { name: 'name', label: 'Name', width: '220' },
+        { name: 'ip', label: 'IP', width: '160' },
+        { name: 'port', label: 'Port', width: '80' },
         { name: 'status', label: 'Status', width: '120', sortable: true },
         { name: 'description', label: 'Description', width: 'auto' }
       ],

@@ -9,7 +9,10 @@ const state = {
   spiderForm: { _id: {} },
 
   // node to deploy/run
-  activeNode: {}
+  activeNode: {},
+
+  // upload form for importing spiders
+  importForm: {}
 }
 
 const getters = {}
@@ -23,6 +26,9 @@ const mutations = {
   },
   SET_ACTIVE_NODE (state, value) {
     state.activeNode = value
+  },
+  SET_IMPORT_FORM (state, value) {
+    state.importForm = value
   }
 }
 

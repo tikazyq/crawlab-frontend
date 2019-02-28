@@ -23,16 +23,21 @@
     </div>
 
     <!--file list-->
-    <ul class="file-list">
-      <li v-for="(item, index) in fileList" :key="index" class="item" @click="onItemClick(item)">
+    <template v-if="true">
+      <!--<code-mirror v-model="code"/>-->
+      <ul class="file-list">
+        <li v-for="(item, index) in fileList" :key="index" class="item" @click="onItemClick(item)">
         <span class="item-icon">
           <i class="fa" :class="getIcon(item.type)"></i>
         </span>
-        <span class="item-name">
+          <span class="item-name">
           {{item.path}}
         </span>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </template>
+    <template v-else>
+    </template>
   </div>
 </template>
 
@@ -41,11 +46,16 @@ import {
   mapState
 } from 'vuex'
 import path from 'path'
+// import { codemirror } from 'vue-codemirror-lite'
 
 export default {
   name: 'FileList',
+  components: {
+    // CodeMirror: codemirror
+  },
   data () {
     return {
+      code: 'var hello = \'world\'',
       isEdit: false
     }
   },
@@ -182,5 +192,9 @@ export default {
     border-right: none;
     border-bottom: 2px solid #409EFF;
     border-radius: 0;
+  }
+
+  .CodeMirror-line {
+    padding-right: 20px;
   }
 </style>

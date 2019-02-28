@@ -10,6 +10,8 @@ import '@/styles/index.scss' // global css
 
 import 'font-awesome/scss/font-awesome.scss'// FontAwesome
 
+import 'codemirror/lib/codemirror.css'
+
 import App from './App'
 import store from './store'
 import router from './router'

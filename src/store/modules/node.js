@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 const state = {
   // NodeList
   nodeList: [],
-  nodeForm: {},
+  nodeForm: { _id: {} },
 
   // spider to deploy/run
   activeSpider: {}
@@ -45,8 +45,8 @@ const actions = {
   editNode ({ state, dispatch }) {
     request.post(`/nodes/${state.nodeForm._id}`, {
       name: state.nodeForm.name,
-      // ip: state.nodeForm.ip,
-      // port: state.nodeForm.port,
+      ip: state.nodeForm.ip,
+      port: state.nodeForm.port,
       description: state.nodeForm.description
     })
       .then(() => {

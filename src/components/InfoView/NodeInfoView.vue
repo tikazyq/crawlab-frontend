@@ -9,6 +9,12 @@
         <el-form-item label="Node Name">
           <el-input v-model="nodeForm.name" placeholder="Node Name" disabled></el-input>
         </el-form-item>
+        <el-form-item label="Node IP">
+          <el-input v-model="nodeForm.ip" placeholder="Node IP"></el-input>
+        </el-form-item>
+        <el-form-item label="Node Port">
+          <el-input v-model="nodeForm.port" placeholder="Node Port"></el-input>
+        </el-form-item>
         <el-form-item label="Description">
           <el-input type="textarea" v-model="nodeForm.description" placeholder="Description" :disabled="isView">
           </el-input>
