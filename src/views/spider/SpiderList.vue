@@ -114,7 +114,7 @@
       <el-table-column label="Action" align="center" width="250">
         <template slot-scope="scope">
           <el-tooltip content="View" placement="top">
-            <el-button type="info" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
           </el-tooltip>
           <el-tooltip content="Edit" placement="top">
             <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
@@ -168,7 +168,7 @@ export default {
         { name: 'name', label: 'Name', width: 'auto' },
         { name: 'type', label: 'Spider Type', width: '160', sortable: true },
         { name: 'lang', label: 'Language', width: '160', sortable: true },
-        { name: 'latest_version', label: 'Latest Version', width: '120' }
+        { name: 'update_ts', label: 'Last Update', width: '120' }
       ],
       spiderFormRules: {
         name: [{ required: true, message: 'Required Field', trigger: 'change' }]

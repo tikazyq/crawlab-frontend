@@ -53,6 +53,9 @@
           <el-tooltip content="Edit" placement="top">
             <el-button type="warning" icon="el-icon-edit" size="mini" @click="onView(scope.row)"></el-button>
           </el-tooltip>
+          <el-tooltip content="Edit" placement="top">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="onRemove(scope.row)"></el-button>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -167,7 +170,7 @@ export default {
         cancelButtonText: 'Cancel',
         type: 'warning'
       }).then(() => {
-        this.$store.dispatch('node/deleteNode', row._id.$oid)
+        this.$store.dispatch('node/deleteNode', row._id)
           .then(() => {
             this.$message({
               type: 'success',

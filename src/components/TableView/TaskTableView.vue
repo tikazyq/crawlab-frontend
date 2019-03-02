@@ -1,6 +1,9 @@
 <template>
   <div class="task-table-view">
-    <h5 class="title">{{title}}</h5>
+    <el-row class="title-wrapper">
+      <h5 class="title">{{title}}</h5>
+      <el-button type="success" plain class="small-btn" size="mini" icon="fa fa-refresh" @click="onRefresh"></el-button>
+    </el-row>
     <el-table border height="240px" :data="taskList">
       <el-table-column property="node" label="Node" width="220" align="center">
         <template slot-scope="scope">
@@ -44,6 +47,9 @@ export default {
     title: String
   },
   computed: {
+    ...mapState('spider', [
+      'spiderForm'
+    ]),
     ...mapState('task', [
       'taskList'
     ])
@@ -57,17 +63,32 @@ export default {
     },
     onClickTask (row) {
       this.$router.push(`/tasks/${row._id}`)
+    },
+    onRefresh () {
+      this.$store.dispatch('spider/getTaskList', this.spiderForm._id.$oid)
     }
   }
 }
 </script>
 
 <style scoped>
+  .task-table-view {
+    margin-bottom: 10px;
+  }
+
   .el-table .a-tag {
     text-decoration: underline;
   }
 
   .title {
     margin: 10px 0 3px 0;
+    float: left;
+  }
+
+  .small-btn {
+    float: right;
+    width: 24px;
+    margin: 0;
+    padding: 5px;
   }
 </style>

@@ -39,7 +39,7 @@
     <el-row class="button-container" v-if="!isView">
       <el-button type="success" @click="onRun">Run</el-button>
       <el-button type="primary" @click="onDeploy">Deploy</el-button>
-      <el-button type="info" @click="onSave">Save</el-button>
+      <el-button type="success" @click="onSave">Save</el-button>
     </el-row>
   </div>
 </template>

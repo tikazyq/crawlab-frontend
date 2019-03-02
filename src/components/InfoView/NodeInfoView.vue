@@ -9,11 +9,11 @@
         <el-form-item label="Node Name">
           <el-input v-model="nodeForm.name" placeholder="Node Name" disabled></el-input>
         </el-form-item>
-        <el-form-item label="Node IP">
-          <el-input v-model="nodeForm.ip" placeholder="Node IP"></el-input>
+        <el-form-item label="Node IP" prop="ip" required>
+          <el-input v-model="nodeForm.ip" placeholder="Node IP" :disabled="isView"></el-input>
         </el-form-item>
-        <el-form-item label="Node Port">
-          <el-input v-model="nodeForm.port" placeholder="Node Port"></el-input>
+        <el-form-item label="Node Port" prop="port" required>
+          <el-input v-model="nodeForm.port" placeholder="Node Port" :disabled="isView"></el-input>
         </el-form-item>
         <el-form-item label="Description">
           <el-input type="textarea" v-model="nodeForm.description" placeholder="Description" :disabled="isView">
@@ -47,10 +47,14 @@ export default {
   },
   methods: {
     onSave () {
-      this.$store.dispatch('node/editNode')
-        .then(() => {
-          this.$message.success('Node has been saved successfully')
-        })
+      this.$refs.nodeForm.validate(valid => {
+        if (valid) {
+          this.$store.dispatch('node/editNode')
+            .then(() => {
+              this.$message.success('Node has been saved successfully')
+            })
+        }
+      })
     }
   }
 }

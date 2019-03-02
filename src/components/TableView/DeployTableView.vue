@@ -1,6 +1,9 @@
 <template>
   <div class="deploy-table-view">
-    <h5 class="title">{{title}}</h5>
+    <el-row class="title-wrapper">
+      <h5 class="title">{{title}}</h5>
+      <el-button type="success" plain class="small-btn" size="mini" icon="fa fa-refresh" @click="onRefresh"></el-button>
+    </el-row>
     <el-table border height="240px" :data="deployList">
       <el-table-column property="version" label="Ver" width="40" align="center"></el-table-column>
       <el-table-column property="node" label="Node" width="220" align="center">
@@ -30,6 +33,9 @@ export default {
     title: String
   },
   computed: {
+    ...mapState('spider', [
+      'spiderForm'
+    ]),
     ...mapState('deploy', [
       'deployList'
     ])
@@ -40,6 +46,9 @@ export default {
     },
     onClickNode (row) {
       this.$router.push(`/nodes/${row.node_id}`)
+    },
+    onRefresh () {
+      this.$store.dispatch('deploy/getDeployList', this.spiderForm._id.$oid)
     }
   }
 }
@@ -51,6 +60,14 @@ export default {
   }
 
   .title {
+    float: left;
     margin: 10px 0 3px 0;
+  }
+
+  .small-btn {
+    float: right;
+    width: 24px;
+    margin: 0;
+    padding: 5px;
   }
 </style>

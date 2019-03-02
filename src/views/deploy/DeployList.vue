@@ -56,7 +56,7 @@
       <el-table-column label="Action" align="center" width="160">
         <template slot-scope="scope">
           <el-tooltip content="View" placement="top">
-            <el-button type="info" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
+            <el-button type="primary" icon="el-icon-search" size="mini" @click="onView(scope.row)"></el-button>
           </el-tooltip>
         </template>
       </el-table-column>
